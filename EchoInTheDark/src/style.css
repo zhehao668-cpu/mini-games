@@ -1,0 +1,96 @@
+:root { color-scheme: dark; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #050508; }
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+  color: #c8d8e8; user-select: none; -webkit-user-select: none; touch-action: none;
+}
+#game { position: fixed; inset: 0; display: block; cursor: crosshair; background: #050508; }
+
+/* ---------- HUD ---------- */
+#hud {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; pointer-events: none; gap: 16px;
+  background: linear-gradient(180deg, rgba(5,5,8,0.85), rgba(5,5,8,0));
+}
+#hud .group { display: flex; align-items: center; gap: 14px; }
+.hud-label { font-size: 13px; letter-spacing: 2px; color: #6b7d95; text-transform: uppercase; }
+.hud-level { font-size: 15px; font-weight: 600; color: #e6f2ff; letter-spacing: 1px; }
+.pebbles { display: flex; gap: 5px; align-items: center; }
+.pebble { width: 9px; height: 9px; border-radius: 50%; background: #ffaa00;
+  box-shadow: 0 0 6px rgba(255,170,0,0.8); transition: opacity .2s, transform .2s; }
+.pebble.spent { opacity: 0.12; box-shadow: none; transform: scale(0.7); }
+.noise-wrap { display: flex; align-items: center; gap: 8px; }
+.noise-bar { width: 120px; height: 7px; border-radius: 4px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.noise-fill { height: 100%; width: 0%; border-radius: 4px; background: #3ee06a; transition: width .08s linear; }
+.noise-txt { font-size: 11px; color: #6b7d95; letter-spacing: 1px; }
+#restartBtn {
+  pointer-events: auto; cursor: pointer; border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04); color: #aebfd4; padding: 6px 14px; border-radius: 6px;
+  font-size: 13px; letter-spacing: 2px; transition: background .15s, color .15s;
+}
+#restartBtn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+/* ---------- Overlays ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: 20; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; padding: 24px;
+  background: radial-gradient(circle at 50% 45%, rgba(10,18,30,0.92), rgba(5,5,8,0.98));
+}
+.overlay.hidden { display: none; }
+.title { font-size: 52px; font-weight: 700; letter-spacing: 6px; color: #eaf6ff;
+  text-shadow: 0 0 30px rgba(0,240,255,0.35); margin-bottom: 6px; }
+.subtitle { font-size: 14px; letter-spacing: 5px; color: #00c8e0; margin-bottom: 22px; }
+.overlay h2 { font-size: 30px; letter-spacing: 4px; margin-bottom: 12px; color: #fff; }
+.overlay p { font-size: 14px; line-height: 2; color: #93a7bd; max-width: 520px; }
+
+/* 操作说明面板 */
+.help { margin: 16px 0 4px; text-align: left; width: min(420px, 88vw);
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px; padding: 14px 18px; }
+.help-title { font-size: 13px; letter-spacing: 4px; color: #00c8e0; margin-bottom: 12px; text-align: center; }
+.ctrl-row { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+.ctrl-row .keys { display: flex; gap: 5px; min-width: 152px; justify-content: flex-end; flex-wrap: wrap; }
+.ctrl-row .desc { font-size: 12.5px; color: #93a7bd; }
+kbd { font-family: inherit; font-size: 11px; color: #dbe9f7; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.2); border-bottom-width: 2px; border-radius: 5px;
+  padding: 2px 7px; letter-spacing: 1px; white-space: nowrap; }
+.goal { margin-top: 12px; font-size: 13px; color: #8fa6bd; letter-spacing: 1px; }
+
+.btn {
+  pointer-events: auto; cursor: pointer; margin-top: 22px; padding: 12px 34px;
+  font-size: 15px; letter-spacing: 3px; color: #06121a; font-weight: 700;
+  background: #00f0ff; border: none; border-radius: 8px; box-shadow: 0 0 24px rgba(0,240,255,0.45);
+  transition: transform .12s, box-shadow .12s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 0 34px rgba(0,240,255,0.7); }
+.btn.secondary { background: rgba(255,255,255,0.1); color: #cfe0f0; box-shadow: none; border: 1px solid rgba(255,255,255,0.2); }
+.stats { margin-top: 18px; display: flex; gap: 26px; font-size: 14px; color: #9fb2c6; }
+.stats span { display: block; font-size: 26px; color: #eaf6ff; font-weight: 600; margin-bottom: 4px; }
+.rank { margin-top: 14px; font-size: 20px; letter-spacing: 3px; color: #ffd34d; text-shadow: 0 0 18px rgba(255,211,77,0.4); }
+.red-flash { position: fixed; inset: 0; z-index: 15; background: #ff2233; opacity: 0; pointer-events: none; }
+
+/* ---------- Editor ---------- */
+#editorBar {
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 10;
+  display: none; gap: 8px; padding: 8px; border-radius: 10px;
+  background: rgba(10,14,22,0.92); border: 1px solid rgba(255,255,255,0.14); flex-wrap: wrap; justify-content: center;
+}
+#editorBar.show { display: flex; }
+.ebtn { cursor: pointer; padding: 7px 13px; font-size: 12px; letter-spacing: 1px; color: #c4d2e2;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 6px; }
+.ebtn.active { background: #00f0ff; color: #06121a; border-color: #00f0ff; font-weight: 700; }
+#editorHint { position: fixed; top: 58px; left: 50%; transform: translateX(-50%); z-index: 10;
+  font-size: 12px; color: #7f93aa; letter-spacing: 1px; background: rgba(10,14,22,0.8);
+  padding: 5px 14px; border-radius: 20px; display: none; }
+#editorHint.show { display: block; }
+#exportModal { position: fixed; inset: 0; z-index: 30; display: none; align-items: center; justify-content: center;
+  background: rgba(5,5,8,0.82); padding: 20px; }
+#exportModal.show { display: flex; }
+#exportBox { width: min(720px, 92vw); background: #0b1016; border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 12px; padding: 20px; }
+#exportBox h3 { font-size: 16px; letter-spacing: 2px; margin-bottom: 12px; color: #eaf6ff; }
+#exportArea { width: 100%; height: 260px; background: #05070c; color: #b8ffd9; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 12px; font-family: Consolas, monospace; font-size: 12px; resize: vertical; }
+#exportBox .row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }

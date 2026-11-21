@@ -1,0 +1,15 @@
+# Node.js
+node_modules/
+
+# 构建输出（含打包好的 exe）
+dist/
+build/
+
+# 临时文件
+*.tmp
+.tmp/
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db

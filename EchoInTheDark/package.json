@@ -1,0 +1,41 @@
+{
+  "name": "echo-in-the-dark",
+  "version": "1.0.0",
+  "description": "暗夜回声 · Echo in the Dark —— 极简潜行解谜游戏",
+  "main": "main.js",
+  "author": "EchoInTheDark",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable",
+    "dist:dir": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.echodark.game",
+    "productName": "EchoInTheDark",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "src/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "EchoInTheDark_win64.exe"
+    }
+  },
+  "allowScripts": {
+    "electron@31.7.7": true
+  }
+}
